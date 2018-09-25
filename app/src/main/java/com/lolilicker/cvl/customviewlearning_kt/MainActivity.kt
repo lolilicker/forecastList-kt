@@ -30,5 +30,8 @@ class MainActivity : AppCompatActivity() {
                        })
             }
         }
+        listOf(1,2,3,4,5,6,7,8)
+                .flatMap { listOf(1) }
+                .map { 2 }
     }
 }
