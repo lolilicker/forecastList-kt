@@ -3,9 +3,10 @@ package com.lolilicker.cvl.customviewlearning_kt
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import com.lolilicker.cvl.customviewlearning_kt.domain.Forecast
-import com.lolilicker.cvl.customviewlearning_kt.domain.ForecastDataMapper
+import com.lolilicker.cvl.customviewlearning_kt.model.RequestForecastCommand
+import com.lolilicker.cvl.customviewlearning_kt.model.server.ServerDataMapper
+import com.lolilicker.cvl.customviewlearning_kt.model.server.ForecastServer
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
@@ -20,9 +21,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         forecastList.layoutManager = LinearLayoutManager(this)
         doAsync {
-           val result =  Request("BeiJing").execute()
+            val result =  RequestForecastCommand("BeiJing").execute()
             uiThread {
-                forecastList.adapter = ForecastListAdapter(ForecastDataMapper().convertFromDataModel(result),
+                forecastList.adapter = ForecastListAdapter(result,
                        object :ForecastListAdapter.OnItemClickLisener{
                            override fun invoke(forecast: Forecast) {
                                toast(forecast.date)
@@ -30,8 +31,5 @@ class MainActivity : AppCompatActivity() {
                        })
             }
         }
-        listOf(1,2,3,4,5,6,7,8)
-                .flatMap { listOf(1) }
-                .map { 2 }
     }
 }

@@ -1,4 +1,4 @@
-package com.lolilicker.cvl.customviewlearning_kt.model
+package com.lolilicker.cvl.customviewlearning_kt.model.bean
 
 data class Weather(
         val id: Int,

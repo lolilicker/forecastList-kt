@@ -1,7 +1,8 @@
-package com.lolilicker.cvl.customviewlearning_kt.domain
+package com.lolilicker.cvl.customviewlearning_kt.model.server
 
-import com.lolilicker.cvl.customviewlearning_kt.model.Forecast
-import com.lolilicker.cvl.customviewlearning_kt.model.ForecastResult
+import com.lolilicker.cvl.customviewlearning_kt.domain.ForecastList
+import com.lolilicker.cvl.customviewlearning_kt.model.bean.Forecast
+import com.lolilicker.cvl.customviewlearning_kt.model.bean.ForecastResult
 import java.text.DateFormat
 import java.util.*
 import com.lolilicker.cvl.customviewlearning_kt.domain.Forecast as ModelForecast
@@ -9,9 +10,9 @@ import com.lolilicker.cvl.customviewlearning_kt.domain.Forecast as ModelForecast
 /**
  * Created by WangBo on 2018/9/18.
  */
-public class ForecastDataMapper {
-    fun convertFromDataModel(forecast:ForecastResult):ForecastList{
-        return ForecastList(forecast.city.name,forecast.city.country,convertForecastListToDomain(forecast.list))
+public class ServerDataMapper {
+    fun convertFromDataModel(forecast: ForecastResult): ForecastList {
+        return ForecastList(forecast.city.id.toLong(), forecast.city.name, forecast.city.country, convertForecastListToDomain(forecast.list))
     }
 
     private fun convertForecastListToDomain(list:List<Forecast>):List<ModelForecast> {

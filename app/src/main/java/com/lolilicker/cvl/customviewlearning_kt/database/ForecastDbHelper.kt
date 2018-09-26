@@ -1,6 +1,7 @@
-package com.lolilicker.cvl.customviewlearning_kt
+package com.lolilicker.cvl.customviewlearning_kt.database
 
 import android.database.sqlite.SQLiteDatabase
+import com.lolilicker.cvl.customviewlearning_kt.App
 import org.jetbrains.anko.db.*
 
 /**
