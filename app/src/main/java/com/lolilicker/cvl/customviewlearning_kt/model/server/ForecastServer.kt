@@ -13,6 +13,6 @@ class ForecastServer(val dataMapper: ServerDataMapper = ServerDataMapper(),
         val result = ForecastByZipCodeRequest(zipCode).execute()
         val converted = dataMapper.convertFromDataModel(result)
         forecastDb.saveForecast(converted)
-        return forecastDb.requestForecastByZipCode(zipCode,date)
+        return converted
     }
 }

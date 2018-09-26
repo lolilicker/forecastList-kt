@@ -1,6 +1,7 @@
 package com.lolilicker.cvl.customviewlearning_kt.database
 
 import android.database.sqlite.SQLiteDatabase
+import android.util.Log
 import com.lolilicker.cvl.customviewlearning_kt.model.ForecastDataSource
 import com.lolilicker.cvl.customviewlearning_kt.domain.ForecastList
 import org.jetbrains.anko.db.MapRowParser
@@ -30,14 +31,13 @@ class ForecastDb(val forecastDbHelper: ForecastDbHelper = ForecastDbHelper.insta
     }
 
     override fun requestForecastByZipCode(zipCode:String, date:Long) = forecastDbHelper.use {
-        val dailyRequest = "${ForecastDbHelper.DayForecastTable.CITY_ID} = ? " +
-                "AND ${ForecastDbHelper.DayForecastTable.DATE} >= ?"
+        val dailyRequest = "${ForecastDbHelper.DayForecastTable.CITY_ID} = ? AND ${ForecastDbHelper.DayForecastTable.DATE} >= ?"
         val dailyForecast = select(ForecastDbHelper.DayForecastTable.NAME)
-                .whereSimple(dailyRequest,zipCode,date.toString())
+                .whereSimple(dailyRequest, zipCode.toString(), date.toString())
                 .parseList { DayForecast(HashMap(it)) }
 
         val city = select(ForecastDbHelper.CityForecastTable.NAME)
-                .whereSimple("${ForecastDbHelper.CityForecastTable.ID} = ?", zipCode)
+                .whereSimple("${ForecastDbHelper.CityForecastTable.ID} = ?", zipCode.toString())
                 .parseOpt { CityForecast(HashMap(it), dailyForecast) }
 
         if (city != null) dataMapper.convertToDomain(city) else null
@@ -48,9 +48,10 @@ class ForecastDb(val forecastDbHelper: ForecastDbHelper = ForecastDbHelper.insta
         clear(ForecastDbHelper.DayForecastTable.NAME)
 
         with(dataMapper.convertFromDomain(forecast)) {
-            insert(ForecastDbHelper.CityForecastTable.NAME, *map.toVarargArray())
+           var result =  insert(ForecastDbHelper.CityForecastTable.NAME, *map.toVarargArray())
             dailyForecast.forEach {
-                insert(ForecastDbHelper.DayForecastTable.NAME, *it.map.toVarargArray())
+                var resultEach = insert(ForecastDbHelper.DayForecastTable.NAME, *it.map.toVarargArray())
+                Log.d("db","resultEach: ${resultEach}")
             }
         }
     }

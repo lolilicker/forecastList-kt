@@ -1,5 +1,6 @@
 package com.lolilicker.cvl.customviewlearning_kt.model.server
 
+import android.util.Log
 import com.google.gson.Gson
 import com.lolilicker.cvl.customviewlearning_kt.model.bean.ForecastResult
 
@@ -16,6 +17,7 @@ class ForecastByZipCodeRequest(val zipCode:String) {
 
     fun execute(): ForecastResult {
         val forecastJsonStr = java.net.URL(COMPLETE_URL + zipCode).readText()
+        Log.d("request",forecastJsonStr)
         return Gson().fromJson(forecastJsonStr, ForecastResult::class.java)
     }
 }
